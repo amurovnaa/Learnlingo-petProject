@@ -1,0 +1,100 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { auth } from "../../firebase.js"; // ініціалізація Firebase auth
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
+} from "firebase/auth";
+
+// Register
+export const registerUser = createAsyncThunk(
+  "auth/register",
+  async ({ email, password, displayName }, { rejectWithValue }) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      // Set displayName immediately
+      await updateProfile(userCredential.user, { displayName });
+
+      const user = {
+        uid: userCredential.user.uid,
+        email: userCredential.user.email,
+        displayName: userCredential.user.displayName, // now not null
+      };
+
+      console.log("Register success:", user);
+      return user;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// Login
+export const loginUser = createAsyncThunk(
+  "auth/login",
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      return {
+        uid: userCredential.user.uid,
+        email: userCredential.user.email,
+        displayName: userCredential.user.displayName,
+      };
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// Logout
+export const logoutUser = createAsyncThunk(
+  "auth/logout",
+  async (_, { rejectWithValue }) => {
+    try {
+      await signOut(auth);
+      return true;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// Get current user (refresh session)
+export const getCurrentUser = createAsyncThunk(
+  "auth/refreshUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      return new Promise((resolve, reject) => {
+        const unsubscribe = onAuthStateChanged(
+          auth,
+          (user) => {
+            unsubscribe();
+            if (user) {
+              // Only store serializable fields
+              resolve({
+                uid: user.uid,
+                email: user.email,
+                displayName: user.displayName,
+              });
+            } else {
+              resolve(null);
+            }
+          },
+          (error) => reject(rejectWithValue(error.message))
+        );
+      });
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
