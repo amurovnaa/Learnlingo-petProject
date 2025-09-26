@@ -1,22 +1,28 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import css from "../src/App.module.css";
-import AuthDebug from "./components/AuthDebug.jsx";
+import { lazy } from "react";
+import { Route, Routes } from "react-router";
+import { PrivateRoute } from "./components/PrivateRoute/PrivateRoute.jsx";
+import Layout from "./components/Layout/Layout.jsx";
+
+const HomePage = lazy(() => import("./pages/Homepage/Homepage"));
+const TeachersPage = lazy(() => import("./pages/TeachersPage/TeachersPage"));
+const FavoritesPage = lazy(() => import("./pages/FavoritesPage/FavoritesPage"));
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div className={css.container}>
-      <h1>Vite + React</h1>
-      <div className={css.card}>
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <AuthDebug />
-      </div>
-    </div>
+    <>
+      <Layout />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/teachers" element={<TeachersPage />} />
+        <Route
+          path="/favorites"
+          element={
+            <PrivateRoute redirectTo="/" component={<FavoritesPage />} />
+          }
+        />
+        <Route path="*" element={<HomePage />} />
+      </Routes>
+    </>
   );
 }
 
