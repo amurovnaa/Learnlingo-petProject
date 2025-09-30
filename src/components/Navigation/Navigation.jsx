@@ -10,7 +10,7 @@ export const Navigation = () => {
   };
   return (
     <nav className="flex gap-[28px] items-center">
-      <NavLink className={({ isActive }) => getLinkClass(isActive)}>
+      <NavLink className={({ isActive }) => getLinkClass(isActive)} to="/">
         Home
       </NavLink>
       <NavLink

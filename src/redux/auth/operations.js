@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { auth } from "../../firebase.js"; // ініціалізація Firebase auth
+import { auth } from "../../firebase.js";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -18,13 +18,12 @@ export const registerUser = createAsyncThunk(
         email,
         password
       );
-      // Set displayName immediately
       await updateProfile(userCredential.user, { displayName });
 
       const user = {
         uid: userCredential.user.uid,
         email: userCredential.user.email,
-        displayName: userCredential.user.displayName, // now not null
+        displayName: userCredential.user.displayName,
       };
 
       console.log("Register success:", user);
@@ -69,7 +68,6 @@ export const logoutUser = createAsyncThunk(
   }
 );
 
-// Get current user (refresh session)
 export const getCurrentUser = createAsyncThunk(
   "auth/refreshUser",
   async (_, { rejectWithValue }) => {
@@ -80,7 +78,6 @@ export const getCurrentUser = createAsyncThunk(
           (user) => {
             unsubscribe();
             if (user) {
-              // Only store serializable fields
               resolve({
                 uid: user.uid,
                 email: user.email,
