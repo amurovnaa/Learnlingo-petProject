@@ -44,6 +44,8 @@ export const loginUser = createAsyncThunk(
         email,
         password
       );
+      localStorage.setItem("profile", JSON.stringify(userCredential.user));
+
       return {
         uid: userCredential.user.uid,
         email: userCredential.user.email,
@@ -61,6 +63,7 @@ export const logoutUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       await signOut(auth);
+      localStorage.removeItem("profile");
       return true;
     } catch (error) {
       return rejectWithValue(error.message);

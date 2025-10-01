@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Button from "../Button/Button.jsx";
+import { loginUser, registerUser } from "../../redux/auth/operations.js";
+import { useDispatch } from "react-redux";
 
-const schemas = {
+const authSchemas = {
   login: yup.object({
     email: yup.string().email("Invalid email").required("Required"),
     password: yup.string().required("Required"),
@@ -17,13 +19,39 @@ const schemas = {
 };
 
 const AuthForm = ({ type = "login", onSubmit }) => {
-  const schema = schemas[type];
-
+  const schema = authSchemas[type];
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
+
+  const handleFormSubmit = (data) => {
+    type === "login"
+      ? dispatch(loginUser({ email: data.email, password: data.password }))
+          .unwrap()
+          .then((res) => {
+            console.log("Login successful:", res);
+            onSubmit();
+          })
+          .catch((err) => console.log("Login failed:", err))
+      : type === "register"
+      ? dispatch(
+          registerUser({
+            email: data.email,
+            password: data.password,
+            displayName: data.displayName,
+          })
+        )
+          .unwrap()
+          .then((res) => {
+            console.log("Register successful:", res);
+            onSubmit();
+          })
+          .catch((err) => console.log("Register failed:", err))
+      : null;
+  };
 
   return (
     <div>
@@ -40,7 +68,7 @@ const AuthForm = ({ type = "login", onSubmit }) => {
           continue your search for an teacher.
         </p>
       )}
-      <form onSubmit={handleSubmit(onSubmit)} className="">
+      <form onSubmit={handleSubmit(handleFormSubmit)} className="">
         <div className="w-full flex flex-col items-center gap-[18px] mb-10">
           {type === "register" && (
             <div className="w-full">

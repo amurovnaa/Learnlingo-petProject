@@ -3,6 +3,7 @@ import { useThemes } from "../../context/ThemesContext.jsx";
 import ThemeSelector from "../../components/ThemeSelector/ThemeSelector";
 import Container from "../../components/Container/Container";
 import AuthDebugPanel from "../../components/AuthDebug.jsx";
+import { Link } from "react-router";
 const HomePage = () => {
   const { theme } = useThemes();
 
@@ -26,9 +27,11 @@ const HomePage = () => {
               Tutors: Elevate your language proficiency to new heights by
               connecting with highly qualified and experienced tutors.
             </p>
-            <Button className="max-w-[267px] max-h-[60px] px-[88px] py-4">
-              Get started
-            </Button>
+            <Link to="/teachers">
+              <Button className="max-w-[267px] max-h-[60px] px-[88px] py-4">
+                Get started
+              </Button>
+            </Link>
           </div>
           <div className="">
             <img src={theme.image} alt="Character" />

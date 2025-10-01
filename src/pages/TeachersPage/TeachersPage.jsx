@@ -11,20 +11,24 @@ import {
 } from "../../redux/teachers/selectors.js";
 import { useThemes } from "../../context/ThemesContext.jsx";
 import Loader from "../../components/Loader/Loader.jsx";
+import { selectIsLoggedIn } from "../../redux/auth/selectors.js";
+import Modal from "../../components/Modal/Modal.jsx";
+import AuthForm from "../../components/AuthForm/AuthForm.jsx";
 
 const TeachersPage = () => {
   const { theme } = useThemes();
-  const [favorites, setFavorites] = useState(() => {
-    const saved = localStorage.getItem("favorites");
-    console.log("Loaded favorites from localStorage:", saved);
-    return saved ? JSON.parse(saved) : [];
-  });
-
   const dispatch = useDispatch();
+
   const teachers = useSelector(selectTeachersItem);
   const isError = useSelector(selectError);
   const hasMoreItems = useSelector(selectHasMoreItems);
   const isLoading = useSelector(selectIsLoading);
+
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+
+  const [favorites, setFavorites] = useState([]);
+  const [modalType, setModalType] = useState(null);
+
   useEffect(() => {
     if (teachers.length === 0) {
       console.log("Fetching initial teachers...");
@@ -33,7 +37,11 @@ const TeachersPage = () => {
   }, [teachers, dispatch]);
 
   useEffect(() => {
-    console.log("Saving favorites to localStorage:", favorites);
+    const stored = JSON.parse(localStorage.getItem("favorites")) || [];
+    setFavorites(stored);
+  }, []);
+
+  useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
@@ -44,12 +52,20 @@ const TeachersPage = () => {
     dispatch(fetchTeachers({ lastKey, limit: 4 }));
   };
 
-  const toggleFavorite = (id) => {
-    console.log("Toggling favorite for teacher ID:", id);
+  const toggleFavorite = (teacher) => {
+    if (!isLoggedIn) {
+      setModalType("register");
+      return;
+    }
+
     setFavorites((prev) =>
-      prev.includes(id) ? prev.filter((tid) => tid !== id) : [...prev, id]
+      prev.some((fav) => fav.id === teacher.id)
+        ? prev.filter((fav) => fav.id !== teacher.id)
+        : [...prev, teacher]
     );
   };
+
+  const closeModal = () => setModalType(null);
 
   return (
     <main className="bg-[#f8f8f8] min-h-screen relative">
@@ -66,7 +82,7 @@ const TeachersPage = () => {
 
           <TeachersList
             teachers={teachers}
-            toggleFavorite={toggleFavorite}
+            onToggleFavorite={toggleFavorite}
             favorites={favorites}
           />
           {hasMoreItems && !isLoading && (
@@ -80,6 +96,13 @@ const TeachersPage = () => {
               </button>
             </div>
           )}
+          <Modal
+            isOpen={modalType === "register"}
+            onClose={closeModal}
+            title={modalType === "login" ? "Login" : "Register"}
+          >
+            <AuthForm type={modalType} onSubmit={closeModal} />
+          </Modal>
         </section>
       </Container>
     </main>

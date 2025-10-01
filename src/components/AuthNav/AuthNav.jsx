@@ -7,37 +7,10 @@ import { loginUser, registerUser } from "../../redux/auth/operations.js";
 
 export const AuthNav = () => {
   const { theme } = useThemes();
-  const dispatch = useDispatch();
   const [modalType, setModalType] = useState(null);
 
   const openModal = (type) => setModalType(type);
   const closeModal = () => setModalType(null);
-
-  const handleFormSubmit = (data) => {
-    modalType === "login"
-      ? dispatch(loginUser({ email: data.email, password: data.password }))
-          .unwrap()
-          .then((res) => {
-            console.log("Login successful:", res);
-            closeModal();
-          })
-          .catch((err) => console.log("Login failed:", err))
-      : modalType === "register"
-      ? dispatch(
-          registerUser({
-            email: data.email,
-            password: data.password,
-            displayName: data.displayName,
-          })
-        )
-          .unwrap()
-          .then((res) => {
-            console.log("Register successful:", res);
-            closeModal();
-          })
-          .catch((err) => console.log("Register failed:", err))
-      : null;
-  };
 
   return (
     <div className="flex gap-[16px] items-center">
@@ -65,8 +38,9 @@ export const AuthNav = () => {
         isOpen={modalType === "login" || modalType === "register"}
         onClose={closeModal}
         title={modalType === "login" ? "Login" : "Register"}
+        styleModal="max-w-[566px]"
       >
-        <AuthForm type={modalType} onSubmit={handleFormSubmit} />
+        <AuthForm type={modalType} onSubmit={closeModal} />
       </Modal>
     </div>
   );

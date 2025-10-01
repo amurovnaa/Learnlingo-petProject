@@ -2,14 +2,24 @@ import { useState } from "react";
 import { useThemes } from "../../context/ThemesContext.jsx";
 import { AnimatePresence, motion } from "framer-motion";
 import Button from "../Button/Button.jsx";
+import { useSelector } from "react-redux";
+import { selectIsLoggedIn } from "../../redux/auth/selectors.js";
+import Modal from "../Modal/Modal.jsx";
+import BookingForm from "../BookingForm/BookingForm.jsx";
 
 const TeacherCard = ({ teacher, isFavorite, onToggleFavorite }) => {
   const [expandedText, setExpandedText] = useState(false);
   const { theme } = useThemes();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const [isOpen, setIsOpen] = useState(false);
 
   const expandText = () => {
     setExpandedText(true);
   };
+
+  const closeModal = () => setIsOpen(false);
+  const openModal = () => setIsOpen(true);
+
   return (
     <li className="flex gap-12 items-start justify-between p-6 rounded-3xl bg-[#fff] max-w-[1184px] min-w-[100%]">
       <div
@@ -95,11 +105,11 @@ const TeacherCard = ({ teacher, isFavorite, onToggleFavorite }) => {
                 </span>
               </li>
             </ul>
-            <button>
+            <button onClick={() => onToggleFavorite(teacher)}>
               <svg
-                className="inline-block w-[26px] h-[26px] fill-none"
-                strokeWidth="2"
-                stroke="#121417"
+                className="inline-block w-[26px] h-[26px]"
+                stroke={isLoggedIn && isFavorite ? theme.mainColor : "#121417"}
+                fill={isLoggedIn && isFavorite ? theme.mainColor : "none"}
               >
                 <use href="/sprite.svg#icon-heart"></use>
               </svg>
@@ -193,6 +203,7 @@ const TeacherCard = ({ teacher, isFavorite, onToggleFavorite }) => {
             </li>
           ))}
         </ul>
+
         <AnimatePresence>
           {expandedText && (
             <motion.div
@@ -203,12 +214,23 @@ const TeacherCard = ({ teacher, isFavorite, onToggleFavorite }) => {
               transition={{ duration: 0.5, ease: "easeInOut" }}
               className="overflow-hidden"
             >
-              <Button className={` max-h-[60px] px-11 py-4 mt-8`}>
+              <Button
+                className={` max-h-[60px] px-11 py-4 mt-8`}
+                onClick={openModal}
+              >
                 Book trial session
               </Button>
             </motion.div>
           )}
         </AnimatePresence>
+        <Modal
+          isOpen={isOpen}
+          onClose={closeModal}
+          title="Book trial lesson"
+          styleModal="max-w-[600px]"
+        >
+          <BookingForm teacher={teacher} onSubmit={closeModal} />
+        </Modal>
       </div>
     </li>
   );

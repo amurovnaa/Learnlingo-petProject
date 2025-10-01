@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from "react";
 
-const Modal = ({ isOpen, onClose, title, children }) => {
+const Modal = ({ isOpen, onClose, title, children, styleModal }) => {
   const handleEsc = useCallback(
     (e) => {
       if (e.key === "Escape") onClose();
@@ -22,7 +22,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-[30px] shadow-lg max-w-[566px] relative"
+        className={`bg-white rounded-[30px] shadow-lg relative ${styleModal}`}
         onClick={(e) => e.stopPropagation()}
       >
         <button

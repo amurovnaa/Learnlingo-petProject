@@ -37,7 +37,7 @@ export const UserMenu = () => {
         className={({ isActive }) => getLinkClass(isActive)}
         to="/favorites"
       >
-        My Favorites
+        Favorites
       </NavLink>
     </div>
   );

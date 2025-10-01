@@ -7,12 +7,12 @@ import {
 } from "./operations.js";
 
 const initialState = {
-  user: {
+  user: JSON.parse(localStorage.getItem("profile")) || {
     email: null,
     displayName: null,
     uid: null,
   },
-  isLoggedIn: false,
+  isLoggedIn: !!localStorage.getItem("profile"),
   isRefreshing: false,
   error: null,
 };
