@@ -10,7 +10,7 @@ export const AppBar = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   return (
-    <header className="transition-colors duration-500 flex justify-between my-[20px] items-center xl:px-[128px] ">
+    <header className="transition-colors duration-500 flex justify-between my-[20px] items-center xl:px-[128px] min-h-12">
       <NavLink className="flex gap-[8px] items-center" to="/">
         <img src={logoImg} alt="Ukraine flag Logo" />
         <span className="font-roboto font-medium text-xl leading-[1.2] tracking-[-0.02em]">

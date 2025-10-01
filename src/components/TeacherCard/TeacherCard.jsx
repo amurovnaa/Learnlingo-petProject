@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { useThemes } from "../../context/ThemesContext.jsx";
+import { AnimatePresence, motion } from "framer-motion";
+import Button from "../Button/Button.jsx";
 
 const TeacherCard = ({ teacher, isFavorite, onToggleFavorite }) => {
-  const [expandedText, setExpandedText] = useState(true);
+  const [expandedText, setExpandedText] = useState(false);
   const { theme } = useThemes();
+
+  const expandText = () => {
+    setExpandedText(true);
+  };
   return (
-    <li className="flex gap-12 items-start p-6 rounded-3xl bg-[#fff]">
+    <li className="flex gap-12 items-start justify-between p-6 rounded-3xl bg-[#fff] max-w-[1184px] min-w-[100%]">
       <div
         className={`flex items-center justify-center min-w-[120px] min-h-[120px] rounded-[100px] border-[3px] border-solid`}
         style={{ borderColor: theme.lightColor }}
@@ -17,8 +23,8 @@ const TeacherCard = ({ teacher, isFavorite, onToggleFavorite }) => {
           src={teacher.avatar_url}
         />
       </div>
-      <div>
-        <div className="flex justify-between items-center mb-8">
+      <div className="min-w-[968px]">
+        <div className="flex justify-between items-start mb-8">
           <div className="flex flex-col gap-2">
             <span className="font-medium text-base leading-normal text-[#8a8a89]">
               Languages
@@ -128,57 +134,81 @@ const TeacherCard = ({ teacher, isFavorite, onToggleFavorite }) => {
             </p>
           </li>
         </ul>
-
-        {expandedText && (
-          <div>
-            <p className="font-normal text-base leading-normal mb-8">
-              {teacher.experience}
+        {!expandedText && (
+          <button className="mb-8" onClick={expandText}>
+            <p className="font-medium text-base leading-normal underline ">
+              Read more
             </p>
-            <ul className="flex flex-col gap-8 mb-8">
-              {teacher.reviews.map((reviewer, idx) => (
-                <li key={idx} className="flex flex-col gap-4 ">
-                  <div>
-                    <p className="font-medium text-base leading-normal text-[#8a8a89]">
-                      {reviewer.reviewer_name}
-                    </p>
-                    <div className="flex gap-2 items-center">
-                      <svg
-                        className="inline-block w-4 h-4"
-                        strokeWidth="1.2"
-                        stroke="#ffc531"
-                        fill="#ffc531"
-                      >
-                        <use href="/sprite.svg#icon-star"></use>
-                      </svg>
-                      <span>{reviewer.reviewer_rating}</span>
-                    </div>
-                  </div>
-                  <p className="font-medium text-base leading-normal ">
-                    {reviewer.comment}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </div>
+          </button>
         )}
+        <AnimatePresence>
+          {expandedText && (
+            <motion.div
+              key="expanded"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="overflow-hidden"
+            >
+              <p className="font-normal text-base leading-normal mb-8">
+                {teacher.experience}
+              </p>
+              <ul className="flex flex-col gap-8 mb-8">
+                {teacher.reviews.map((reviewer, idx) => (
+                  <li key={idx} className="flex flex-col gap-4 ">
+                    <div>
+                      <p className="font-medium text-base leading-normal text-[#8a8a89]">
+                        {reviewer.reviewer_name}
+                      </p>
+                      <div className="flex gap-2 items-center">
+                        <svg
+                          className="inline-block w-4 h-4"
+                          strokeWidth="1.2"
+                          stroke="#ffc531"
+                          fill="#ffc531"
+                        >
+                          <use href="/sprite.svg#icon-star"></use>
+                        </svg>
+                        <span>{reviewer.reviewer_rating}</span>
+                      </div>
+                    </div>
+                    <p className="font-medium text-base leading-normal ">
+                      {reviewer.comment}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        <ul className="flex gap-2 items-center mb-8">
+        <ul className="flex gap-2 items-center">
           {teacher.levels.map((level, idx) => (
             <li
               key={idx}
-              className={`px-3 py-2 rounded-[35px] font-medium text-sm leading-[1.14] ${theme.buttonBg}`}
+              className={`px-3 py-2 rounded-[35px] font-medium text-sm leading-[1.14] border border-solid border-[rgba(18,20,23,0.2)]`}
             >
-              <p>{level}</p>
+              <p>#{level}</p>
             </li>
           ))}
         </ul>
-        {expandedText && (
-          <button
-            className={`font-bold text-lg leading-[1.56] px-12 py-4 rounded-xl ${theme.buttonBg}`}
-          >
-            Book trial lesson
-          </button>
-        )}
+        <AnimatePresence>
+          {expandedText && (
+            <motion.div
+              key="expanded"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="overflow-hidden"
+            >
+              <Button className={` max-h-[60px] px-11 py-4 mt-8`}>
+                Book trial session
+              </Button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </li>
   );

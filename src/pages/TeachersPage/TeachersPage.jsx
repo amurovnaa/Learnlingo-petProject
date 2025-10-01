@@ -10,6 +10,7 @@ import {
   selectTeachersItem,
 } from "../../redux/teachers/selectors.js";
 import { useThemes } from "../../context/ThemesContext.jsx";
+import Loader from "../../components/Loader/Loader.jsx";
 
 const TeachersPage = () => {
   const { theme } = useThemes();
@@ -24,7 +25,6 @@ const TeachersPage = () => {
   const isError = useSelector(selectError);
   const hasMoreItems = useSelector(selectHasMoreItems);
   const isLoading = useSelector(selectIsLoading);
-
   useEffect(() => {
     if (teachers.length === 0) {
       console.log("Fetching initial teachers...");
@@ -52,18 +52,24 @@ const TeachersPage = () => {
   };
 
   return (
-    <div className=" bg-[#f8f8f8]">
+    <main className="bg-[#f8f8f8] min-h-screen relative">
+      {isLoading && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black/30 z-50">
+          <Loader />
+        </div>
+      )}
       <Container className="px-32 py-24">
         <section className="">
           {isError && (
             <p className="text-red-500">Error loading teachers... 😢</p>
           )}
+
           <TeachersList
             teachers={teachers}
             toggleFavorite={toggleFavorite}
             favorites={favorites}
           />
-          {hasMoreItems && (
+          {hasMoreItems && !isLoading && (
             <div className="flex justify-center items-center">
               <button
                 onClick={handleLoadMore}
@@ -76,7 +82,7 @@ const TeachersPage = () => {
           )}
         </section>
       </Container>
-    </div>
+    </main>
   );
 };
 

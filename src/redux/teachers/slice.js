@@ -5,7 +5,7 @@ const initialState = {
   items: [],
   page: 0,
   hasMore: true,
-  isloading: false,
+  isLoading: false,
   error: null,
 };
 const teachersSlice = createSlice({
@@ -21,10 +21,10 @@ const teachersSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchTeachers.pending, (state) => {
-        state.isloading = true;
+        state.isLoading = true;
       })
       .addCase(fetchTeachers.fulfilled, (state, action) => {
-        state.isloading = false;
+        state.isLoading = false;
         if (action.payload.length === 0) {
           state.hasMore = false;
         } else {
@@ -33,7 +33,7 @@ const teachersSlice = createSlice({
         }
       })
       .addCase(fetchTeachers.rejected, (state, action) => {
-        state.isloading = false;
+        state.isLoading = false;
         state.error = action.payload;
       });
   },
