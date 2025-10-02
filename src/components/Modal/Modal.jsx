@@ -18,11 +18,11 @@ const Modal = ({ isOpen, onClose, title, children, styleModal }) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 overflow-y-auto "
       onClick={onClose}
     >
       <div
-        className={`bg-white rounded-[30px] shadow-lg relative ${styleModal}`}
+        className={`bg-white rounded-[30px] shadow-lg relative xl:mt-40 xl:mb-12 ${styleModal}`}
         onClick={(e) => e.stopPropagation()}
       >
         <button

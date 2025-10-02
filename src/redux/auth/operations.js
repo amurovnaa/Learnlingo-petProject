@@ -7,6 +7,7 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
+import toast from "react-hot-toast";
 
 // Register
 export const registerUser = createAsyncThunk(
@@ -26,9 +27,10 @@ export const registerUser = createAsyncThunk(
         displayName: userCredential.user.displayName,
       };
 
-      console.log("Register success:", user);
+      toast.success("Welcome! You’re registered! 🎉");
       return user;
     } catch (error) {
+      toast.error("Registration failed!");
       return rejectWithValue(error.message);
     }
   }
@@ -45,13 +47,14 @@ export const loginUser = createAsyncThunk(
         password
       );
       localStorage.setItem("profile", JSON.stringify(userCredential.user));
-
+      toast.success("Login successful! 👋");
       return {
         uid: userCredential.user.uid,
         email: userCredential.user.email,
         displayName: userCredential.user.displayName,
       };
     } catch (error) {
+      toast.error("Login failed. ");
       return rejectWithValue(error.message);
     }
   }
@@ -64,8 +67,10 @@ export const logoutUser = createAsyncThunk(
     try {
       await signOut(auth);
       localStorage.removeItem("profile");
+      toast.success("You have logged out. See you soon! 👋");
       return true;
     } catch (error) {
+      toast.error("Logout failed. Try again.");
       return rejectWithValue(error.message);
     }
   }

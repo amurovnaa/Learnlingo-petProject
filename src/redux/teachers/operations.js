@@ -8,6 +8,7 @@ import {
   limitToFirst,
 } from "firebase/database";
 import { db } from "../../firebase.js";
+import toast from "react-hot-toast";
 
 export const fetchTeachers = createAsyncThunk(
   "teachers/fetchTeachers",
@@ -26,9 +27,6 @@ export const fetchTeachers = createAsyncThunk(
           startAfter(lastKey),
           limitToFirst(limit)
         );
-        console.log("Paginating after key:", lastKey);
-      } else {
-        console.log("Fetching initial teachers");
       }
 
       const snapshot = await get(teachersQuery);
@@ -43,10 +41,10 @@ export const fetchTeachers = createAsyncThunk(
         ...teacher,
       }));
 
-      console.log("Fetched teachers:", data);
+      toast.success("Teachers loaded ✅");
       return data;
     } catch (err) {
-      console.error("Error fetching teachers:", err.message);
+      toast.error("Failed to load teachers ❌");
       return rejectWithValue(err.message);
     }
   }

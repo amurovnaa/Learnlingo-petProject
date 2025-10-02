@@ -27,11 +27,11 @@ const TeachersPage = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const [favorites, setFavorites] = useState([]);
+  const [loadingFavorite, setLoadingFavorite] = useState(false);
   const [modalType, setModalType] = useState(null);
 
   useEffect(() => {
     if (teachers.length === 0) {
-      console.log("Fetching initial teachers...");
       dispatch(fetchTeachers({ limit: 4 }));
     }
   }, [teachers, dispatch]);
@@ -48,28 +48,33 @@ const TeachersPage = () => {
   const handleLoadMore = () => {
     const lastTeacher = teachers[teachers.length - 1];
     const lastKey = lastTeacher?.id;
-    console.log("Load more clicked. Last teacher key:", lastKey);
     dispatch(fetchTeachers({ lastKey, limit: 4 }));
   };
 
-  const toggleFavorite = (teacher) => {
+  const toggleFavorite = async (teacher) => {
     if (!isLoggedIn) {
       setModalType("register");
       return;
     }
+    try {
+      setLoadingFavorite(true);
+      await new Promise((resolve) => setTimeout(resolve, 600));
 
-    setFavorites((prev) =>
-      prev.some((fav) => fav.id === teacher.id)
-        ? prev.filter((fav) => fav.id !== teacher.id)
-        : [...prev, teacher]
-    );
+      setFavorites((prev) =>
+        prev.some((fav) => fav.id === teacher.id)
+          ? prev.filter((fav) => fav.id !== teacher.id)
+          : [...prev, teacher]
+      );
+    } finally {
+      setLoadingFavorite(false);
+    }
   };
 
   const closeModal = () => setModalType(null);
 
   return (
     <main className="bg-[#f8f8f8] min-h-screen relative">
-      {isLoading && (
+      {(isLoading || loadingFavorite) && (
         <div className="fixed inset-0 flex justify-center items-center bg-black/30 z-50">
           <Loader />
         </div>
@@ -92,14 +97,16 @@ const TeachersPage = () => {
                 disabled={isLoading}
                 className={`font-bold text-lg leading-[1.56] px-12 py-4 rounded-xl ${theme.buttonBg}`}
               >
-                {isLoading ? "Loading..." : "Load More"}
+                Load More
               </button>
             </div>
           )}
+
           <Modal
             isOpen={modalType === "register"}
             onClose={closeModal}
             title={modalType === "login" ? "Login" : "Register"}
+            styleModal={"max-w-[566px]"}
           >
             <AuthForm type={modalType} onSubmit={closeModal} />
           </Modal>
