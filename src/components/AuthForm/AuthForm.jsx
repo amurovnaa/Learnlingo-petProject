@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -21,6 +21,8 @@ const authSchemas = {
 const AuthForm = ({ type = "login", onSubmit }) => {
   const schema = authSchemas[type];
   const dispatch = useDispatch();
+  const [visiblePassword, setVisiblePassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -95,13 +97,27 @@ const AuthForm = ({ type = "login", onSubmit }) => {
             )}
           </div>
 
-          <div className="w-full">
+          <div className="w-full  relative">
             <input
               {...register("password")}
-              type="password"
+              type={visiblePassword ? "text" : "password"}
               placeholder="Password"
               className="font-normal text-base leading-[1.37] text-[#121417] placeholder-[#121417] w-full max-h-[54px] border pl-[18px] py-4 rounded-xl border-solid border-[rgba(18,20,23,0.1)]"
             />
+            <button
+              type="button"
+              onClick={() => setVisiblePassword((prev) => !prev)}
+              className="absolute w-5 h-5 right-[18px] top-[17px]"
+            >
+              <svg
+                className="inline-block w-full h-full"
+                stroke="#121417"
+                fill="none"
+              >
+                <use href="/sprite.svg#icon-eye-off"></use>
+              </svg>
+            </button>
+
             {errors.password && (
               <p className="text-red-500 text-sm">{errors.password.message}</p>
             )}
