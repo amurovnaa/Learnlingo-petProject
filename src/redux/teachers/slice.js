@@ -28,8 +28,13 @@ const teachersSlice = createSlice({
       })
       .addCase(fetchTeachers.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.items.push(...action.payload.data);
-        state.page += 1;
+
+        if (action.meta.arg.lastIndex === 0) {
+          state.items = action.payload.data;
+        } else {
+          state.items.push(...action.payload.data);
+        }
+
         state.hasMore = state.items.length < action.payload.total;
       })
       .addCase(fetchTeachers.rejected, (state, action) => {

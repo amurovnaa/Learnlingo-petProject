@@ -1,8 +1,7 @@
-import Button from "../../components/Button/Button.jsx";
-import { useThemes } from "../../context/ThemesContext.jsx";
+import Button from "../../components/Button/Button";
+import { useThemes } from "../../context/ThemesContext";
 import ThemeSelector from "../../components/ThemeSelector/ThemeSelector";
 import Container from "../../components/Container/Container";
-import AuthDebugPanel from "../../components/AuthDebug.jsx";
 import { Link } from "react-router";
 const HomePage = () => {
   const { theme } = useThemes();

@@ -1,4 +1,4 @@
-import { useThemes } from "../../context/ThemesContext.jsx";
+import { useThemes } from "../../context/ThemesContext";
 
 const ThemeSelector = () => {
   const { themes, themeIndex, setThemeIndex } = useThemes();
