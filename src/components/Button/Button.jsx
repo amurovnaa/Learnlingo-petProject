@@ -1,4 +1,4 @@
-import { useThemes } from "../../context/ThemesContext.jsx";
+import { useThemes } from "../../context/ThemesContext";
 
 const Button = ({ children, className = "", ...props }) => {
   const { theme } = useThemes();

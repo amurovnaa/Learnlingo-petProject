@@ -1,17 +1,20 @@
 import { useState } from "react";
-import { useThemes } from "../../context/ThemesContext.jsx";
+import { useThemes } from "../../context/ThemesContext";
 import { AnimatePresence, motion } from "framer-motion";
-import Button from "../Button/Button.jsx";
+import Button from "../Button/Button";
 import { useSelector } from "react-redux";
 import { selectIsLoggedIn } from "../../redux/auth/selectors.js";
-import Modal from "../Modal/Modal.jsx";
-import BookingForm from "../BookingForm/BookingForm.jsx";
+import Modal from "../Modal/Modal";
+import BookingForm from "../BookingForm/BookingForm";
+import { selectLevel } from "../../redux/filters/selectors.js";
 
 const TeacherCard = ({ teacher, isFavorite, onToggleFavorite }) => {
   const [expandedText, setExpandedText] = useState(false);
   const { theme } = useThemes();
-  const isLoggedIn = useSelector(selectIsLoggedIn);
   const [isOpen, setIsOpen] = useState(false);
+
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const selectedLevel = useSelector(selectLevel);
 
   const expandText = () => {
     setExpandedText(true);
@@ -194,14 +197,20 @@ const TeacherCard = ({ teacher, isFavorite, onToggleFavorite }) => {
         </AnimatePresence>
 
         <ul className="flex gap-2 items-center">
-          {teacher.levels.map((level, idx) => (
-            <li
-              key={idx}
-              className={`px-3 py-2 rounded-[35px] font-medium text-sm leading-[1.14] border border-solid border-[rgba(18,20,23,0.2)]`}
-            >
-              <p>#{level}</p>
-            </li>
-          ))}
+          {teacher.levels.map((level, idx) => {
+            const isActive = selectedLevel?.includes(level);
+            return (
+              <li
+                key={idx}
+                className={`px-3 py-2 rounded-[35px] font-medium text-sm leading-[1.14] border border-solid ${
+                  isActive ? "border-none" : "border-[rgba(18,20,23,0.2)]"
+                }`}
+                style={isActive ? { backgroundColor: theme.mainColor } : {}}
+              >
+                <p>#{level}</p>
+              </li>
+            );
+          })}
         </ul>
 
         <AnimatePresence>

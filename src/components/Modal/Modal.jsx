@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 
 const Modal = ({ isOpen, onClose, title, children, styleModal }) => {
   const handleEsc = useCallback(
@@ -22,7 +22,7 @@ const Modal = ({ isOpen, onClose, title, children, styleModal }) => {
       onClick={onClose}
     >
       <div
-        className={`bg-white rounded-[30px] shadow-lg relative xl:mt-40 xl:mb-12 ${styleModal}`}
+        className={`bg-white rounded-[30px] shadow-lg relative  ${styleModal}`}
         onClick={(e) => e.stopPropagation()}
       >
         <button

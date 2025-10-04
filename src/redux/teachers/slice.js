@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchTeachers } from "./operations.js";
+import { fetchTeachers } from "./operations";
 
 const initialState = {
   items: [],
   page: 0,
-  hasMore: true,
   isLoading: false,
+  hasMore: true,
   error: null,
 };
+
 const teachersSlice = createSlice({
   name: "teachers",
   initialState,
@@ -16,29 +17,27 @@ const teachersSlice = createSlice({
       state.items = [];
       state.page = 0;
       state.hasMore = true;
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchTeachers.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
       .addCase(fetchTeachers.fulfilled, (state, action) => {
         state.isLoading = false;
-        if (action.payload.length === 0) {
-          state.hasMore = false;
-        } else {
-          state.items.push(...action.payload);
-          state.page += 1;
-        }
+        state.items.push(...action.payload.data);
+        state.page += 1;
+        state.hasMore = state.items.length < action.payload.total;
       })
       .addCase(fetchTeachers.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload;
+        state.error = action.payload || "Failed to load teachers";
       });
   },
 });
 
 export const { resetTeachers } = teachersSlice.actions;
-
 export const teachersReducer = teachersSlice.reducer;

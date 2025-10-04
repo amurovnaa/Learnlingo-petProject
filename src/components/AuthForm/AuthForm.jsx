@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import Button from "../Button/Button.jsx";
+import Button from "../Button/Button";
 import { loginUser, registerUser } from "../../redux/auth/operations.js";
 import { useDispatch } from "react-redux";
 

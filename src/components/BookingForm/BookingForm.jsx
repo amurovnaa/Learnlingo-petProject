@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import Button from "../Button/Button.jsx";
-import { useThemes } from "../../context/ThemesContext.jsx";
+import Button from "../Button/Button";
+import { useThemes } from "../../context/ThemesContext";
 
 export const bookingSchema = yup.object().shape({
   fullName: yup.string().required("Full Name is required"),

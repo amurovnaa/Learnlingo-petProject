@@ -1,5 +1,5 @@
 import { PuffLoader } from "react-spinners";
-import { useThemes } from "../../context/ThemesContext.jsx";
+import { useThemes } from "../../context/ThemesContext";
 
 const Loader = () => {
   const { theme } = useThemes();

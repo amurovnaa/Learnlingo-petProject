@@ -1,5 +1,5 @@
 import { NavLink } from "react-router";
-import { useThemes } from "../../context/ThemesContext.jsx";
+import { useThemes } from "../../context/ThemesContext";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../redux/auth/operations.js";
 

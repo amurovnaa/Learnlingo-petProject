@@ -1,8 +1,8 @@
 import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router";
-import { PrivateRoute } from "./components/PrivateRoute/PrivateRoute.jsx";
-import Layout from "./components/Layout/Layout.jsx";
-import Loader from "./components/Loader/Loader.jsx";
+import { PrivateRoute } from "./components/PrivateRoute/PrivateRoute";
+import Layout from "./components/Layout/Layout";
+import Loader from "./components/Loader/Loader";
 import { Toaster } from "react-hot-toast";
 
 const HomePage = lazy(() => import("./pages/Homepage/Homepage"));

@@ -1,25 +1,31 @@
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTeachers } from "../../redux/teachers/operations.js";
 import { useEffect, useState } from "react";
-import Container from "../../components/Container/Container.jsx";
-import TeachersList from "../../components/TeachersList/TeachersList.jsx";
+import Container from "../../components/Container/Container";
+import TeachersList from "../../components/TeachersList/TeachersList";
 import {
   selectError,
   selectHasMoreItems,
   selectIsLoading,
   selectTeachersItem,
 } from "../../redux/teachers/selectors.js";
-import { useThemes } from "../../context/ThemesContext.jsx";
-import Loader from "../../components/Loader/Loader.jsx";
+import { useThemes } from "../../context/ThemesContext";
+import Loader from "../../components/Loader/Loader";
 import { selectIsLoggedIn } from "../../redux/auth/selectors.js";
-import Modal from "../../components/Modal/Modal.jsx";
-import AuthForm from "../../components/AuthForm/AuthForm.jsx";
+import Modal from "../../components/Modal/Modal";
+import AuthForm from "../../components/AuthForm/AuthForm";
+import { selectFilters } from "../../redux/filters/selectors.js";
+import { FiltersPanel } from "../../components/FiltersPanel/FiltersPanel";
+import { resetTeachers } from "../../redux/teachers/slice.js";
+import { resetFilters } from "../../redux/filters/slice.js";
 
 const TeachersPage = () => {
   const { theme } = useThemes();
   const dispatch = useDispatch();
 
   const teachers = useSelector(selectTeachersItem);
+  const filters = useSelector(selectFilters);
+
   const isError = useSelector(selectError);
   const hasMoreItems = useSelector(selectHasMoreItems);
   const isLoading = useSelector(selectIsLoading);
@@ -31,12 +37,6 @@ const TeachersPage = () => {
   const [modalType, setModalType] = useState(null);
 
   useEffect(() => {
-    if (teachers.length === 0) {
-      dispatch(fetchTeachers({ limit: 4 }));
-    }
-  }, [teachers, dispatch]);
-
-  useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("favorites")) || [];
     setFavorites(stored);
   }, []);
@@ -45,10 +45,17 @@ const TeachersPage = () => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
+  useEffect(() => {
+    dispatch(resetFilters());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(resetTeachers());
+    dispatch(fetchTeachers({ lastIndex: 0, limit: 4, filters }));
+  }, [dispatch, filters]);
+
   const handleLoadMore = () => {
-    const lastTeacher = teachers[teachers.length - 1];
-    const lastKey = lastTeacher?.id;
-    dispatch(fetchTeachers({ lastKey, limit: 4 }));
+    dispatch(fetchTeachers({ lastIndex: teachers.length, limit: 4, filters }));
   };
 
   const toggleFavorite = async (teacher) => {
@@ -84,12 +91,17 @@ const TeachersPage = () => {
           {isError && (
             <p className="text-red-500">Error loading teachers... 😢</p>
           )}
-
+          <FiltersPanel />
           <TeachersList
             teachers={teachers}
             onToggleFavorite={toggleFavorite}
             favorites={favorites}
           />
+          {teachers.length === 0 && !isLoading && (
+            <p className="text-center text-gray-500 mt-6">
+              No teachers found for selected filters 😢
+            </p>
+          )}
           {hasMoreItems && !isLoading && (
             <div className="flex justify-center items-center">
               <button

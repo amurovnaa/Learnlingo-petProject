@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { useThemes } from "../../context/ThemesContext.jsx";
+import { useThemes } from "../../context/ThemesContext";
 
 export const Navigation = () => {
   const { theme } = useThemes();

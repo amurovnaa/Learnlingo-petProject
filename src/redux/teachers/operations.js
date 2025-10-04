@@ -1,50 +1,38 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import {
-  get,
-  query,
-  ref,
-  orderByKey,
-  startAfter,
-  limitToFirst,
-} from "firebase/database";
+import { get, ref } from "firebase/database";
 import { db } from "../../firebase.js";
-import toast from "react-hot-toast";
 
 export const fetchTeachers = createAsyncThunk(
   "teachers/fetchTeachers",
-  async ({ lastKey = null, limit = 4 }, { rejectWithValue }) => {
+  async ({ lastIndex = 0, limit = 4, filters = {} }, { rejectWithValue }) => {
     try {
-      let teachersQuery = query(
-        ref(db, "teachers"),
-        orderByKey(),
-        limitToFirst(limit)
-      );
+      const snapshot = await get(ref(db, "teachers"));
+      if (!snapshot.exists()) return [];
 
-      if (lastKey) {
-        teachersQuery = query(
-          ref(db, "teachers"),
-          orderByKey(),
-          startAfter(lastKey),
-          limitToFirst(limit)
-        );
-      }
-
-      const snapshot = await get(teachersQuery);
-
-      if (!snapshot.exists()) {
-        console.log("No teachers found.");
-        return [];
-      }
-
-      const data = Object.entries(snapshot.val()).map(([id, teacher]) => ({
+      let allTeachers = Object.entries(snapshot.val()).map(([id, t]) => ({
         id,
-        ...teacher,
+        ...t,
       }));
 
-      toast.success("Teachers loaded ✅");
-      return data;
+      const { language = [], level = [], price = null } = filters;
+
+      let filtered = allTeachers.filter((t) => {
+        const langMatch =
+          language.length === 0 ||
+          t.languages?.some((lang) => language.includes(lang));
+
+        const levelMatch =
+          level.length === 0 || t.levels?.some((lvl) => level.includes(lvl));
+
+        const priceMatch = !price || t.price_per_hour <= price;
+
+        return langMatch && levelMatch && priceMatch;
+      });
+
+      const paginated = filtered.slice(lastIndex, lastIndex + limit);
+
+      return { data: paginated, total: filtered.length };
     } catch (err) {
-      toast.error("Failed to load teachers ❌");
       return rejectWithValue(err.message);
     }
   }

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import Container from "../../components/Container/Container.jsx";
-import TeachersList from "../../components/TeachersList/TeachersList.jsx";
-import { useThemes } from "../../context/ThemesContext.jsx";
+import Container from "../../components/Container/Container";
+import TeachersList from "../../components/TeachersList/TeachersList";
 
 const FavoritesPage = () => {
   const [favorites, setFavorites] = useState([]);
