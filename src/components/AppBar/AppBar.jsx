@@ -35,16 +35,16 @@ export const AppBar = () => {
         </div>
 
         <button
-          className="md:hidden flex items-center justify-center w-10 h-10"
+          className="md:hidden w-8 h-8"
           onClick={openMenu}
           aria-label="Open menu"
         >
-          <svg className="w-6 h-6" fill="none" stroke="#121417" strokeWidth="2">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M4 6h16M4 12h16M4 18h16"
-            />
+          <svg
+            className="inline-block w-8 h-8"
+            strokeWidth="1.2"
+            stroke="#121417"
+          >
+            <use href="/sprite.svg#icon-menu"></use>
           </svg>
         </button>
       </header>
