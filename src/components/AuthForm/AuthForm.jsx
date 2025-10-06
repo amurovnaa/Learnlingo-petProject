@@ -107,7 +107,7 @@ const AuthForm = ({ type = "login", onSubmit }) => {
             <button
               type="button"
               onClick={() => setVisiblePassword((prev) => !prev)}
-              className="absolute w-5 h-5 right-[18px] top-[17px]"
+              className="absolute w-5 h-5 right-[18px] top-[14px]"
             >
               <svg
                 className="inline-block w-full h-full"

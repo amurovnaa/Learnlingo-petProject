@@ -65,7 +65,7 @@ const TeachersPage = () => {
     }
     try {
       setLoadingFavorite(true);
-      await new Promise((resolve) => setTimeout(resolve, 600));
+      await new Promise((resolve) => setTimeout(resolve, 400));
 
       setFavorites((prev) =>
         prev.some((fav) => fav.id === teacher.id)
