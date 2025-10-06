@@ -37,7 +37,7 @@ export const FiltersPanel = () => {
   const filters = useSelector(selectFilters);
 
   return (
-    <div className="flex gap-5 mb-8">
+    <div className="flex gap-5 mb-8 flex-wrap">
       <div className="relative w-[221px]">
         <p className="font-medium text-sm leading-[1.29] text-[#8a8a89] mb-2">
           Languages

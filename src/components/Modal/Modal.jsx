@@ -18,11 +18,12 @@ const Modal = ({ isOpen, onClose, title, children, styleModal }) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 overflow-y-auto "
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
       onClick={onClose}
     >
       <div
-        className={`bg-white rounded-[30px] shadow-lg relative  ${styleModal}`}
+        className={`bg-white rounded-[30px] shadow-lg relative mx-2 flex flex-col ${styleModal}`}
+        style={{ maxHeight: "95vh" }}
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -40,7 +41,7 @@ const Modal = ({ isOpen, onClose, title, children, styleModal }) => {
           </svg>
         </button>
 
-        <div className="p-[64px]">
+        <div className="overflow-y-auto p-10 md:p-[64px] flex-1">
           {title && (
             <h2 className="font-medium text-[40px] leading-[1.2] tracking-[-0.02em] text-[#121417] mb-5">
               {title}

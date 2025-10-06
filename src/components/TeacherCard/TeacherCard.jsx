@@ -24,9 +24,13 @@ const TeacherCard = ({ teacher, isFavorite, onToggleFavorite }) => {
   const openModal = () => setIsOpen(true);
 
   return (
-    <li className="flex gap-12 items-start justify-between p-6 rounded-3xl bg-[#fff] max-w-[1184px] min-w-[100%]">
+    <li
+      className="flex gap-4 lg:gap-12 items-center lg:items-start flex-col lg:flex-row justify-between p-6 rounded-3xl bg-[#fff] 
+    min-w-[100%] max-h-[100%] min-h-[328px] max-w-[1042px] xl:max-w-[1184px]"
+    >
       <div
-        className={`flex items-center justify-center min-w-[120px] min-h-[120px] rounded-[100px] border-[3px] border-solid`}
+        className={`flex items-center justify-center min-w-[120px] 
+          min-h-[120px] rounded-[100px] border-[3px] border-solid`}
         style={{ borderColor: theme.lightColor }}
       >
         <img
@@ -36,8 +40,8 @@ const TeacherCard = ({ teacher, isFavorite, onToggleFavorite }) => {
           src={teacher.avatar_url}
         />
       </div>
-      <div className="min-w-[968px]">
-        <div className="flex justify-between items-start mb-8">
+      <div className="max-w-[100%] w-[968px] xl:min-w-[968px]">
+        <div className="flex flex-col gap-4 lg:flex-row lg:gap-0 justify-between items-start mb-8">
           <div className="flex flex-col gap-2">
             <span className="font-medium text-base leading-normal text-[#8a8a89]">
               Languages
@@ -48,7 +52,7 @@ const TeacherCard = ({ teacher, isFavorite, onToggleFavorite }) => {
             </p>
           </div>
           <div className="flex gap-16 items-center">
-            <ul className="flex gap-4 font-medium text-base leading-normal">
+            <ul className="flex gap-2 flex-wrap xl:gap-4 font-medium text-base leading-normal">
               <li>
                 <svg className="mr-2 inline-block w-4 h-4 stroke-0 stroke-current fill-none">
                   <use href="/sprite.svg#icon-book-open"></use>
@@ -196,7 +200,7 @@ const TeacherCard = ({ teacher, isFavorite, onToggleFavorite }) => {
           )}
         </AnimatePresence>
 
-        <ul className="flex gap-2 items-center">
+        <ul className="flex gap-2 flex-wrap items-center">
           {teacher.levels.map((level, idx) => {
             const isActive = selectedLevel?.includes(level);
             return (
@@ -236,7 +240,8 @@ const TeacherCard = ({ teacher, isFavorite, onToggleFavorite }) => {
           isOpen={isOpen}
           onClose={closeModal}
           title="Book trial lesson"
-          styleModal="max-w-[600px]"
+          styleModal="max-h-[972px] max-w-[600px] lg:max-h-[90vh]
+     "
         >
           <BookingForm teacher={teacher} onSubmit={closeModal} />
         </Modal>

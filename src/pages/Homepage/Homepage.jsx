@@ -8,9 +8,9 @@ const HomePage = () => {
 
   return (
     <main>
-      <Container className="px-16">
-        <section className="flex flex-col gap-[24px] mb-6 items-center xl:flex-row ">
-          <div className="max-w-[720px] min-h-[530px] bg-[#f8f8f8] pl-[64px] pr-[108px] pt-[98px] pb-16 rounded-[30px]">
+      <Container className="lg2:px-16">
+        <section className="flex flex-col gap-[24px] mb-6 items-center lg2:flex-row ">
+          <div className="lg2:max-w-[720px] xl:min-h-[530px] bg-[#f8f8f8] pl-[64px] pr-[108px] pt-[98px] pb-16 rounded-[30px]">
             <h1 className="font-medium text-[48px] leading-[1.17] tracking-[-0.02em] mb-[32px]">
               Unlock your potential with the best{" "}
               <span className="relative inline-block">
@@ -27,22 +27,22 @@ const HomePage = () => {
               connecting with highly qualified and experienced tutors.
             </p>
             <Link to="/teachers">
-              <Button className="max-w-[267px] max-h-[60px] px-[88px] py-4">
+              <Button className="max-w-[267px] px-10 lg:max-h-[60px] lg:px-[88px] py-4">
                 Get started
               </Button>
             </Link>
           </div>
           <div className="">
-            <img src={theme.image} alt="Character" />
+            <img src={theme.image} alt="Character" className="" />
           </div>
         </section>
         <section
-          className="px-[122px] py-10 rounded-[30px] border-[1.5px] border-dashed mb-8"
+          className=" px-[60px] py-10 rounded-[30px] border-[1.5px] border-dashed mb-8 xl:px-[122px]"
           style={{
             borderColor: theme.mainColor,
           }}
         >
-          <ul className="flex flex-col gap-[100px] items-center xl:flex-row ">
+          <ul className="flex flex-col gap-10 items-center lg:flex-row lg2:gap-[100px]">
             <li className="flex flex-row gap-4">
               <span className="font-medium text-[28px] leading-[1.14] tracking-[-0.02em]">
                 32,000 +

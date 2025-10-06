@@ -2,8 +2,6 @@ import { useThemes } from "../../context/ThemesContext.jsx";
 import Modal from "../Modal/Modal.jsx";
 import AuthForm from "../AuthForm/AuthForm.jsx";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { loginUser, registerUser } from "../../redux/auth/operations.js";
 
 export const AuthNav = () => {
   const { theme } = useThemes();
