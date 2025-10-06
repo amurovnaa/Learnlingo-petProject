@@ -29,16 +29,19 @@ const TeacherCard = ({ teacher, isFavorite, onToggleFavorite }) => {
     min-w-[100%] max-h-[100%] min-h-[328px] max-w-[1042px] xl:max-w-[1184px]"
     >
       <div
-        className={`flex items-center justify-center min-w-[120px] 
+        className={`relative flex items-center justify-center min-w-[120px] 
           min-h-[120px] rounded-[100px] border-[3px] border-solid`}
         style={{ borderColor: theme.lightColor }}
       >
         <img
-          className="rounded-[100px]"
+          className=" rounded-[100px]"
           width="96px"
           height="96px"
           src={teacher.avatar_url}
         />
+        <svg className="inline-block absolute w-3 h-3 top-[15px] right-[20px]">
+          <use href="/sprite.svg#icon-online"></use>
+        </svg>
       </div>
       <div className="max-w-[100%] w-[968px] xl:min-w-[968px]">
         <div className="flex flex-col gap-4 lg:flex-row lg:gap-0 justify-between items-start mb-8">
@@ -173,24 +176,39 @@ const TeacherCard = ({ teacher, isFavorite, onToggleFavorite }) => {
               </p>
               <ul className="flex flex-col gap-8 mb-8">
                 {teacher.reviews.map((reviewer, idx) => (
-                  <li key={idx} className="flex flex-col gap-4 ">
-                    <div>
-                      <p className="font-medium text-base leading-normal text-[#8a8a89]">
-                        {reviewer.reviewer_name}
-                      </p>
-                      <div className="flex gap-2 items-center">
-                        <svg
-                          className="inline-block w-4 h-4"
-                          strokeWidth="1.2"
-                          stroke="#ffc531"
-                          fill="#ffc531"
-                        >
-                          <use href="/sprite.svg#icon-star"></use>
-                        </svg>
-                        <span>{reviewer.reviewer_rating}</span>
+                  <li key={idx} className="flex flex-col gap-4">
+                    <div className="flex items-center gap-3 max-h-11">
+                      {reviewer.avatar_url ? (
+                        <img
+                          src={reviewer.avatar_url}
+                          alt={reviewer.reviewer_name}
+                          className="w-11 h-11 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-11 h-11 rounded-full bg-gray-300 flex items-center justify-center text-white font-medium text-base">
+                          {reviewer.reviewer_name[0].toUpperCase()}
+                        </div>
+                      )}
+
+                      <div>
+                        <p className="font-medium text-base leading-normal text-[#8a8a89]">
+                          {reviewer.reviewer_name}
+                        </p>
+                        <div className="flex gap-2 items-center">
+                          <svg
+                            className="inline-block w-4 h-4"
+                            strokeWidth="1.2"
+                            stroke="#ffc531"
+                            fill="#ffc531"
+                          >
+                            <use href="/sprite.svg#icon-star"></use>
+                          </svg>
+                          <span>{reviewer.reviewer_rating}</span>
+                        </div>
                       </div>
                     </div>
-                    <p className="font-medium text-base leading-normal ">
+
+                    <p className="font-medium text-base leading-normal">
                       {reviewer.comment}
                     </p>
                   </li>

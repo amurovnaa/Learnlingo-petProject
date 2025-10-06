@@ -86,7 +86,7 @@ const TeachersPage = () => {
           <Loader />
         </div>
       )}
-      <Container className="px-32 py-24">
+      <Container className="lg2:px-32 py-24">
         <section className="">
           {isError && (
             <p className="text-red-500">Error loading teachers... 😢</p>

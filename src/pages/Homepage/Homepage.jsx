@@ -8,9 +8,9 @@ const HomePage = () => {
 
   return (
     <main>
-      <Container className="lg2:px-16">
+      <Container className="xl:px-16">
         <section className="flex flex-col gap-[24px] mb-6 items-center lg2:flex-row ">
-          <div className="lg2:max-w-[720px] xl:min-h-[530px] bg-[#f8f8f8] pl-[64px] pr-[108px] pt-[98px] pb-16 rounded-[30px]">
+          <div className="max-w-[720px] min-h-[530px] bg-[#f8f8f8] pl-[64px] pr-[108px] pt-[98px] pb-16 rounded-[30px]">
             <h1 className="font-medium text-[48px] leading-[1.17] tracking-[-0.02em] mb-[32px]">
               Unlock your potential with the best{" "}
               <span className="relative inline-block">
@@ -27,13 +27,13 @@ const HomePage = () => {
               connecting with highly qualified and experienced tutors.
             </p>
             <Link to="/teachers">
-              <Button className="max-w-[267px] px-10 lg:max-h-[60px] lg:px-[88px] py-4">
+              <Button className="max-w-[267px] px-10 lg:max-h-[60px] sm:px-[88px] py-4">
                 Get started
               </Button>
             </Link>
           </div>
           <div className="">
-            <img src={theme.image} alt="Character" className="" />
+            <img src={theme.image} alt="Character" />
           </div>
         </section>
         <section
