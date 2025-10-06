@@ -7,6 +7,7 @@ import { Navigation } from "../Navigation/Navigation";
 import logoImg from "../../assets/images/logo-uk.png";
 import { NavLink } from "react-router";
 import Modal from "../Modal/Modal";
+import ThemeSelector from "../ThemeSelector/ThemeSelector.jsx";
 
 export const AppBar = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -24,11 +25,12 @@ export const AppBar = () => {
             LearnLingo
           </span>
         </NavLink>
-
-        <div className="hidden md:flex">
+        <div className="hidden items-center md:flex">
           <Navigation />
         </div>
-        <div className="hidden md:flex">
+
+        <div className="hidden items-center md:flex gap-3">
+          <ThemeSelector />
           {isLoggedIn ? <UserMenu /> : <AuthNav />}
         </div>
 
@@ -53,7 +55,11 @@ export const AppBar = () => {
         styleModal="max-w-[320px] w-full p-4"
       >
         <nav className="flex flex-col gap-6 items-center">
-          <Navigation />
+          <div className="flex gap-4">
+            <Navigation />
+            <ThemeSelector />
+          </div>
+
           {isLoggedIn ? <UserMenu /> : <AuthNav />}
         </nav>
       </Modal>

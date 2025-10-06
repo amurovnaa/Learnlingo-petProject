@@ -9,8 +9,8 @@ const HomePage = () => {
   return (
     <main>
       <Container className="xl:px-16">
-        <section className="flex flex-col gap-[24px] mb-6 items-center lg2:flex-row ">
-          <div className="max-w-[720px] min-h-[530px] bg-[#f8f8f8] pl-[64px] pr-[108px] pt-[98px] pb-16 rounded-[30px]">
+        <section className="flex flex-col gap-[24px] mb-6 items-center lg:flex-row ">
+          <div className="max-w-[720px] min-h-[530px] bg-[#f8f8f8] px-8 py-16 sm:pl-[64px] sm:pr-[108px] sm:pt-[98px] sm:pb-16 rounded-[30px]">
             <h1 className="font-medium text-[48px] leading-[1.17] tracking-[-0.02em] mb-[32px]">
               Unlock your potential with the best{" "}
               <span className="relative inline-block">
@@ -21,7 +21,7 @@ const HomePage = () => {
               </span>
               <span className="ml-4">tutors</span>
             </h1>
-            <p className="font-normal text-base leading-[137%] tracking-[-0.02em] mb-16 max-w-[471px]">
+            <p className="font-normal text-base leading-[1.37] tracking-[-0.02em] mb-16 max-w-[471px]">
               Embark on an Exciting Language Journey with Expert Language
               Tutors: Elevate your language proficiency to new heights by
               connecting with highly qualified and experienced tutors.
@@ -32,16 +32,25 @@ const HomePage = () => {
               </Button>
             </Link>
           </div>
-          <div className="">
-            <img src={theme.image} alt="Character" />
+          <div className="w-full lg:w-[568px]">
+            <img src={theme.image} alt="Character" className="w-full" />
           </div>
         </section>
         <section
-          className=" px-[60px] py-10 rounded-[30px] border-[1.5px] border-dashed mb-8 xl:px-[122px]"
+          className="relative px-[60px] py-10 rounded-[30px] mb-8 xl:px-[122px] overflow-hidden"
           style={{
-            borderColor: theme.mainColor,
+            "--dash-color": theme.mainColor,
           }}
         >
+          <div
+            className="absolute inset-0 rounded-[30px] pointer-events-none"
+            style={{
+              border: "2px dashed var(--dash-color)",
+              WebkitMask:
+                "radial-gradient(transparent 98%, black 99%) content-box, radial-gradient(black 98%, transparent 99%)",
+              maskComposite: "exclude",
+            }}
+          />
           <ul className="flex flex-col gap-10 items-center lg:flex-row lg2:gap-[100px]">
             <li className="flex flex-row gap-4">
               <span className="font-medium text-[28px] leading-[1.14] tracking-[-0.02em]">
@@ -77,7 +86,6 @@ const HomePage = () => {
             </li>
           </ul>
         </section>
-        <ThemeSelector />
       </Container>
     </main>
   );
