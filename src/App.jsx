@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 const HomePage = lazy(() => import("./pages/Homepage/Homepage"));
 const TeachersPage = lazy(() => import("./pages/TeachersPage/TeachersPage"));
 const FavoritesPage = lazy(() => import("./pages/FavoritesPage/FavoritesPage"));
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage/NotFoundPage"));
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
               <PrivateRoute redirectTo="/" component={<FavoritesPage />} />
             }
           />
-          <Route path="*" element={<HomePage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
     </>

@@ -1,6 +1,5 @@
 import Button from "../../components/Button/Button";
 import { useThemes } from "../../context/ThemesContext";
-import ThemeSelector from "../../components/ThemeSelector/ThemeSelector";
 import Container from "../../components/Container/Container";
 import { Link } from "react-router";
 const HomePage = () => {
