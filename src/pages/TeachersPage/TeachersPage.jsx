@@ -80,7 +80,7 @@ const TeachersPage = () => {
   const closeModal = () => setModalType(null);
 
   return (
-    <main className="bg-[#f8f8f8] min-h-screen relative">
+    <main className="bg-[#f8f8f8]">
       {(isLoading || loadingFavorite) && (
         <div className="fixed inset-0 flex justify-center items-center bg-black/30 z-50">
           <Loader />
