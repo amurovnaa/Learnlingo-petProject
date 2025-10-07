@@ -18,7 +18,7 @@ export const AppBar = () => {
 
   return (
     <>
-      <header className="transition-colors duration-500 flex justify-between items-center my-5 px-6 md:px-12 xl:px-32 min-h-12">
+      <header className="transition-colors duration-500 flex justify-between items-center py-5 px-6 md:px-12 xl:px-32 min-h-12 max-w-[1440px] my-0 mx-auto">
         <NavLink className="flex gap-2 items-center" to="/">
           <img src={logoImg} alt="Ukraine flag Logo" />
           <span className="font-roboto font-medium text-xl leading-[1.2] tracking-[-0.02em]">
