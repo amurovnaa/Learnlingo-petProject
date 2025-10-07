@@ -1,12 +1,3 @@
----
-
-# 🧠 **LearnLingo — Online Language Learning Platform**
-
-> **Connect. Learn. Grow.** > **LearnLingo** is a modern web application for online language learning that connects students with professional teachers from around the world.
-> The platform is designed for learners who want to master a new language effectively, flexibly, and with inspiration.
-
----
-
 ## 📘 **Project Overview**
 
 **LearnLingo** is a web application developed for a company offering online lessons with language tutors.
